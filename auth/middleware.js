@@ -12,6 +12,7 @@ function auth(req, res, next) {
                     if (!user) return next('User does not exist')
 
                     req.user = user
+                    
                     next()
                 })
                 .catch(next)

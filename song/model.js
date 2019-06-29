@@ -1,23 +1,26 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-const Team = require('../team/model')
+const Playlist = require('../playlist/model')
 
-const Player = db.define(
-    'player',
+const Song = db.define(
+    'song',
     {
-      name: {
+      title: {
         type: Sequelize.STRING,
-        field: 'player_name'
+        field: 'song_title'
       },
-      number: {
-        type: Sequelize.INTEGER,
-        field: 'player_number'
+      artist: {
+        type: Sequelize.STRING,
+        field: 'artist'
+      },
+      album: {
+        type: Sequelize.STRING,
+        field: 'album'
       }
     },
-    { tableName: 'players' },
-    { timestamps: false } 
+    { tableName: 'songs' }
   )
 
-  Player.belongsTo(Team)
+  Song.belongsTo(Playlist)
 
-module.exports = Player
+module.exports = Song

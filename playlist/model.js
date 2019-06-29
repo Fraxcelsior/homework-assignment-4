@@ -1,16 +1,18 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+const User = require('../user/model')
 
-const Team = db.define(
-    'team',
+const Playlist = db.define(
+    'playlist',
     {
       name: {
         type: Sequelize.STRING,
-        field: 'team_name'
+        field: 'playlist_name'
       }
     },
-    { tableName: 'football_teams' },
-    { timestamps: false } 
+    { tableName: 'playlists' }
   )
+  Playlist.belongsTo(User)
 
-module.exports = Team
+
+module.exports = Playlist

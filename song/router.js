@@ -1,9 +1,10 @@
 const { Router } = require('express')
-const Player = require('./model')
-const Team = require('../team/model')
+const auth = require('../auth/middleware')
+const Song = require('./model')
+const Playlist = require('../playlist/model')
 
 const router = new Router()
-
+/*
 router.get('/player/', (req, res, next) => {
     const limit = req.query.limit || 25
     const offset = req.query.offset || 0
@@ -46,6 +47,6 @@ router.put('/player/:id', function (req, res, next) {
         .then(player => res.status(201).json(player))
         .catch(error => next(error))
 })
-
+*/
 
 module.exports = router
