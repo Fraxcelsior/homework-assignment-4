@@ -38,5 +38,14 @@ router.post('/users/', function (req, res, next) {
         .catch(error => next(error))
 })
 
+router.get('/songs', (req, res, next) => {
+    Song
+        .findAll()
+        .then(songs => {
+            res.status(200).json({ songs })
+        })
+        .catch(error => next(error))
+})
+
 
 module.exports = router

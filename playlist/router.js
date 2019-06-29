@@ -1,10 +1,11 @@
 const { Router } = require('express')
+const songs = require('../song/router')
 const auth = require('../auth/middleware')
 const { toData } = require('../auth/wt')
 const Playlist = require('./model')
-const User = require
 
 const router = new Router()
+router.use('/playlists/:id/songs', songs)
 
 router.get('/playlists/', auth, (req, res, next) => {
     const head = req.headers.authorization && req.headers.authorization.split(' ')
@@ -46,20 +47,24 @@ router.post('/playlists/', auth, (req, res, next) => {
         })
         .then(playlist => { res.status(201).json(playlist) })
         .catch(error => next(error))
-   // }
     
 })
-/*
-router.put('/team/:id', function (req, res, next) {
+
+router.delete('/playlists/:id', auth, (req, res, next) => {
+    const head = req.headers.authorization && req.headers.authorization.split(' ')
+    const data = toData(head[1])
     const id = req.params.id
-    Team
+    Playlist
         .findByPk(id)
-        .then(team => {
-            team.update(req.body)
+        .then(playlist => {
+            if(playlist.userId !== data.userId) {
+                return res.status(404).json({message: 'Forbidden'})
+            } else {
+            playlist.destroy()}
         })
-        .then(team => res.status(201).json(team))
+        .then(res.status(200).json({message: 'Playlist succesfully deleted'}))
         .catch(error => next(error))
 })
-*/
+
 
 module.exports = router
