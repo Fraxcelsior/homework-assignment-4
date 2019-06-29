@@ -33,7 +33,7 @@ router.get('/songs', (req, res, next) => {
         .catch(error => next(error))
 })
 
-router.post('/songs', (req, res, next) => {
+router.post('/songs', auth, (req, res, next) => {
     const splitUrl = req.baseUrl.split("")
     const listId = splitUrl.slice(-1)[0]
     
