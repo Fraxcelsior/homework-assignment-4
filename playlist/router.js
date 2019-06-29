@@ -1,11 +1,12 @@
 const { Router } = require('express')
 const songs = require('../song/router')
+const Song = require('../song/model')
 const auth = require('../auth/middleware')
 const { toData } = require('../auth/wt')
 const Playlist = require('./model')
 
 const router = new Router()
-router.use('/playlists/:id/songs', songs)
+router.use('/playlists/:id/', songs)
 
 router.get('/playlists/', auth, (req, res, next) => {
     const head = req.headers.authorization && req.headers.authorization.split(' ')
@@ -32,11 +33,30 @@ router.get('/playlists/:id', auth, (req, res, next) => {
             if(playlist.userId !== data.userId) {
                 return res.status(404).json({message: 'Forbidden'})
             } else {
-            res.status(200).json(playlist)}
+                Song
+                .findAll(
+                    {where: {playlistId: id}
+                    }
+                )
+                .then(songs => {
+                    res.status(200).json({ songs })
+                })
+            }
         })
         .catch(error => next(error))
 })
+function findSongs(id) {
+    Song
+        .findAll(
+            {where: {playlistId: id}
+            }
+        )
+        .then(songs => {
+            res.status(200).json({ songs })
+        })
+        .catch(error => next(error))
 
+}
 router.post('/playlists/', auth, (req, res, next) => {
     const head = req.headers.authorization && req.headers.authorization.split(' ')
     const data = toData(head[1])
