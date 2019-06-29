@@ -29,9 +29,9 @@ router.post('/users/', function (req, res, next) {
     }
     const user = {
         email: req.body.email,
-        //password: bcrypt.hashSync(req.body.password, 10)
-        password: req.body.password,
-        password_confirmation: req.body.password_confirmation
+        password: bcrypt.hashSync(req.body.password, 10),
+        //password: req.body.password,
+        password_confirmation: bcrypt.hashSync(req.body.password_confirmation, 10)
     } 
     User
         .create(user)
