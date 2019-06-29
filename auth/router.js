@@ -1,13 +1,12 @@
 const { Router } = require('express')
 const bcrypt = require('bcrypt')
 const { toJWT } = require('./wt')
-const { toData } = require('./wt')
 const User = require('../user/model')
 const auth = require('./middleware')
 const router = new Router()
 
 
-router.post('/logins', function (req, res, next) {
+router.post('/tokens', function (req, res, next) {
     const emails = req.body.email
     const password = req.body.password
 
@@ -17,7 +16,7 @@ router.post('/logins', function (req, res, next) {
         })
     }
     else {
-        //1. find user based on email, 'entity' is callback from promis
+        //1. find user based on email, 'entity' is callback from promise
         User
             .findOne({
                 where: {
@@ -27,7 +26,7 @@ router.post('/logins', function (req, res, next) {
             .then(entity => {
                 if (!entity) {
                     res.status(400).send({
-                        message: 'User with that email does not exist'
+                        message: 'E-mail or password was incorrect'
                     })
                 }
                 //2. use bcrypt.compareSync to check pw against stored hash
@@ -39,7 +38,7 @@ router.post('/logins', function (req, res, next) {
                 }
                 else {
                     res.status(400).send({
-                        message: 'Password was incorrect'
+                        message: 'E-mail or password was incorrect'
                     })
                 }
             })
