@@ -26,7 +26,7 @@ router.get('/player/', (req, res, next) => {
 */
 router.get('/songs', (req, res, next) => {
     Song
-        .findAll( {include: [Playlist]})
+        .findAll()
         .then(songs => {
             res.status(200).json({ songs })
         })

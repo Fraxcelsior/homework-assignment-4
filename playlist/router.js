@@ -39,24 +39,13 @@ router.get('/playlists/:id', auth, (req, res, next) => {
                     }
                 )
                 .then(songs => {
-                    res.status(200).json({ songs })
+                    res.status(200).json({playlist, songs })
                 })
             }
         })
         .catch(error => next(error))
 })
-function findSongs(id) {
-    Song
-        .findAll(
-            {where: {playlistId: id}
-            }
-        )
-        .then(songs => {
-            res.status(200).json({ songs })
-        })
-        .catch(error => next(error))
 
-}
 router.post('/playlists/', auth, (req, res, next) => {
     const head = req.headers.authorization && req.headers.authorization.split(' ')
     const data = toData(head[1])
